@@ -19,7 +19,7 @@ public class UserController {
 
     public void login(String email, String password) {
         if (userService.isUserLoggedIn()) {
-            System.out.println("⚠️ You are already logged in.");
+//            System.out.println("⚠️ You are already logged in.");
             return;
         }
 

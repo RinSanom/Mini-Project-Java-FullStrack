@@ -65,6 +65,15 @@ public class UI {
                 String passwordLogin = new Scanner(System.in).next();
 
                 userController.login(emailLogin, passwordLogin);
+
+
+                System.out.println("============================");
+                System.out.println("""
+                        1. View all products
+                        2. Add product
+                        3. Search products
+                        """);
+                System.out.println("============================");
             }
             case 2 -> {
                 System.out.println("🔐 Welcome to Login");
