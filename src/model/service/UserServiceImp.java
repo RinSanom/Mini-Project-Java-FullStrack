@@ -16,17 +16,18 @@ public class UserServiceImp implements UserService{
     private static final UserRepository userRepository = new UserRepositoryImpl();
     @Override
     public boolean register(String username, String password , String email) {
-        if(userRepository.isUsernameTaken(username)){
-            System.out.println("Username is taken");
+        if(userRepository.isUsernameTaken(email)){
+            System.out.println("Email is taken");
             return false;
         }
         UserModel userModel = new UserModel(null , UUID.randomUUID().toString() , username , email , PasswordHasher.hashPassword(password) , false);
+        FileUtil.writeToFile(LOGIN_FILE, userModel.getUUID());
         return userRepository.registerUser(userModel);
     }
 
     @Override
     public Optional<UserResponDto> login(String email, String password) {
-        Optional<UserModel> userOpt = userRepository.login(email, password); // only email is used
+        Optional<UserModel> userOpt = userRepository.login(email, password);
         if (userOpt.isPresent()) {
             UserModel user = userOpt.get();
             if (PasswordHasher.checkPassword(password, user.getPassword())) {

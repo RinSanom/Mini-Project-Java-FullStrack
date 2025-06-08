@@ -23,6 +23,7 @@ public class UI {
         System.out.println("============================");
         System.out.println("""
                 1. Register
+                2. Login
                 """);
     }
 
@@ -56,6 +57,16 @@ public class UI {
                 } catch (InterruptedException ignored) {}
                 clearConsole();
 
+                System.out.println("🔐 Welcome to Login");
+                System.out.print("Please enter your email: ");
+                String emailLogin = new Scanner(System.in).next();
+
+                System.out.print("Please enter your password: ");
+                String passwordLogin = new Scanner(System.in).next();
+
+                userController.login(emailLogin, passwordLogin);
+            }
+            case 2 -> {
                 System.out.println("🔐 Welcome to Login");
                 System.out.print("Please enter your email: ");
                 String emailLogin = new Scanner(System.in).next();
