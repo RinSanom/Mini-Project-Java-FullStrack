@@ -17,19 +17,22 @@ public class UserController {
         }
     }
 
-    public void login(String email, String password) {
+    public boolean login(String email, String password) {
         if (userService.isUserLoggedIn()) {
             System.out.println("⚠️ You are already logged in.");
-            return;
+            return true;
         }
 
         Optional<UserResponDto> loggedIn = userService.login(email, password);
         if (loggedIn.isPresent()) {
             System.out.println("✅ Login successful. Welcome, " + loggedIn.get().email() + "!");
+            return true;
         } else {
             System.out.println("❌ Login failed. Please check your credentials.");
+            return false;
         }
     }
+
 
     public boolean isUserLoggedIn() {
         return userService.isUserLoggedIn();
