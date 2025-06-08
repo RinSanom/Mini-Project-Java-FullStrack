@@ -1,10 +1,14 @@
 package view;
 
+import controller.ProductController;
 import controller.UserController;
+import model.dto.ProductCreateDto;
+import model.dto.ProductResponDto;
 
 import java.util.Scanner;
 
 public class UI {
+    private static final ProductController productController = new ProductController();
     public static final UserController userController = new UserController();
     public static final Scanner scanner = new Scanner(System.in);
 
@@ -32,8 +36,11 @@ public class UI {
         System.out.println("      Product Inventory     ");
         System.out.println("============================");
         System.out.println("""
-                1. View Products
-                2. Logout
+                1. Get all Products
+                2. Insert New Product
+                3. Search Products By Name
+                4. Search Products by Category Name
+                5. Log out
                 """);
     }
 
@@ -45,20 +52,42 @@ public class UI {
         System.out.print("Please select an option: ");
         int option = scanner.nextInt();
         switch (option) {
-            case 1 -> System.out.println("🔍 Displaying all products... (TODO)");
-            case 2 -> {
-                userController.logout();
-                System.out.println("🔒 Logged out successfully.");
-                clearConsole();
-                home(); // back to login screen
+            case 1 -> {
+                productController.getAllProducts()
+                        .forEach(System.out::println);
             }
+            case 2 -> {
+                System.out.println("[+] Insert Product Name : ");
+                String productName = scanner.next();
+                System.out.print("[+] Insert Product Price : ");
+                float productPrice = scanner.nextFloat();
+                System.out.println("[+] Insert Product Quantity : ");
+                int productQuantity = scanner.nextInt();
+                ProductCreateDto productCreateDto
+                        = new ProductCreateDto(productName, productPrice, productQuantity);
+                ProductResponDto product = productController.insertNewProduct(productCreateDto);
+                System.out.println(product);
+            }
+            case 3 -> {
+                System.out.println("[+] Search Product Name : ");
+                 String productName = scanner.next();
+                 ProductResponDto productResponDto = productController.getProductByName(productName);
+                System.out.printf(productResponDto.toString());
+            }
+            case 4 -> {
+                System.out.println("[+] Search Product By Category : ");
+                String productName = scanner.next();
+                ProductResponDto productResponDto = productController.getProductByName(productName);
+                System.out.printf(productResponDto.toString());
+            }
+
             default -> System.out.println("❌ Invalid option.");
         }
     }
 
     public static void home() throws InterruptedException {
         if (userController.isUserLoggedIn()) {
-            System.out.println("✅ You are already logged in.");
+//            System.out.println("✅ You are already logged in.");
             userController.showLoggedInUser();
             productMenu();
             return;

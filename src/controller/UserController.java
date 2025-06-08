@@ -42,7 +42,6 @@ public class UserController {
         userService.getLoggedInUser().ifPresentOrElse(
                 user -> System.out.println("👋 Logged in as: " + user.email()),
                 () -> System.out.println("")
-              //  ⚠️ Session exists, but user not found.
         );
     }
 
