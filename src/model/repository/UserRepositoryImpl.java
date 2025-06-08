@@ -6,6 +6,7 @@ import utiles.DatabaseConfig;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Optional;
 
 public class UserRepositoryImpl implements UserRepository{
@@ -64,5 +65,11 @@ public class UserRepositoryImpl implements UserRepository{
             System.out.println("Check Email Error" + e.getMessage());
         }
         return false;
+    }
+
+    @Override
+    public List<UserModel> findAll() {
+
+        return List.of();
     }
 }

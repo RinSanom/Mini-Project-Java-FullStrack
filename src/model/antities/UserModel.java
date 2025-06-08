@@ -15,4 +15,10 @@ public class UserModel {
     private String email;
     private String password;
     private boolean isDeleted;
+
+    //
+//    private String name;
+//    private String category;
+//    private double price;
+//    private int stock;
 }
