@@ -13,5 +13,6 @@ public interface ProductRepository {
     ProductModel fineProductByName(String pName);
     ProductModel fineProductByCategory(String CategoryName);
 
+    ProductModel fineProductByUuid(String uuid);
 
 }

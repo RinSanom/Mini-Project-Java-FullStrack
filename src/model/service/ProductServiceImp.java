@@ -49,4 +49,23 @@ public class ProductServiceImp implements ProductService {
         return null;
     }
 
+    @Override
+    public List<ProductRepository> getAllProductsInCart() {
+        return List.of();
+    }
+
+    @Override
+    public ProductRepository addProductToCart(String productUuid,Integer quantity) {
+       ProductModel productRepo = productRepository.fineProductByUuid(productUuid);
+
+        if(productRepo.getQty() >= quantity){
+            productRepo.setQty(productRepo.getQty()-quantity);
+            ProductResponDto product = ProductMapper.mapFromProductToProductResponDto(productRepo);
+        }else {
+            System.out.println("[!] Your Quantity is over stock!");
+        }
+        return null;
+    }
+
+
 }
