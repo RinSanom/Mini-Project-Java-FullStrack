@@ -5,6 +5,7 @@ import controller.UserController;
 import model.dto.ProductCreateDto;
 import model.dto.ProductResponDto;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class UI {
@@ -12,10 +13,9 @@ public class UI {
     public static final UserController userController = new UserController();
     public static final Scanner scanner = new Scanner(System.in);
 
-    // ✅ Clear console for Unix-based systems (like your Fedora)
     public static void clearConsole() {
         try {
-            Thread.sleep(300); // Small delay for better UX
+            Thread.sleep(300);
             System.out.print("\033[H\033[2J");
             System.out.flush();
         } catch (InterruptedException ignored) {}
@@ -39,8 +39,9 @@ public class UI {
                 1. Get all Products
                 2. Insert New Product
                 3. Search Products By Name
-                4. Search Products by Category Name
-                5. Log out
+                4. Add Product to Cart // ✅ Task: add to cart feature
+                5. Show Cart           // ✅ Task: view cart contents
+                6. Log out
                 """);
     }
 
@@ -51,6 +52,8 @@ public class UI {
 
         System.out.print("Please select an option: ");
         int option = scanner.nextInt();
+        scanner.nextLine();
+
         switch (option) {
             case 1 -> {
                 productController.getAllProducts()
@@ -58,36 +61,51 @@ public class UI {
             }
             case 2 -> {
                 System.out.println("[+] Insert Product Name : ");
-                String productName = scanner.next();
+                String productName = scanner.nextLine();
                 System.out.print("[+] Insert Product Price : ");
                 float productPrice = scanner.nextFloat();
                 System.out.println("[+] Insert Product Quantity : ");
                 int productQuantity = scanner.nextInt();
-                ProductCreateDto productCreateDto
-                        = new ProductCreateDto(productName, productPrice, productQuantity);
+                scanner.nextLine();
+                ProductCreateDto productCreateDto = new ProductCreateDto(productName, productPrice, productQuantity);
                 ProductResponDto product = productController.insertNewProduct(productCreateDto);
                 System.out.println(product);
             }
             case 3 -> {
                 System.out.println("[+] Search Product Name : ");
-                 String productName = scanner.next();
-                 ProductResponDto productResponDto = productController.getProductByName(productName);
-                System.out.printf(productResponDto.toString());
-            }
-            case 4 -> {
-                System.out.println("[+] Search Product By Category : ");
-                String productName = scanner.next();
+                String productName = scanner.nextLine();
                 ProductResponDto productResponDto = productController.getProductByName(productName);
-                System.out.printf(productResponDto.toString());
+                System.out.println(productResponDto);
             }
-
+            case 4 -> { // ✅ Task: add product to cart
+                System.out.print("[+] Enter Product UUID to Add to Cart: ");
+                String uuid = scanner.nextLine();
+                ProductResponDto result = productController.addProductToCart(uuid);
+                if (result != null) {
+                    System.out.println("✅ Product added to cart: " + result);
+                } else {
+                    System.out.println("❌ Product not found.");
+                }
+            }
+            case 5 -> { // ✅ Task: display all products in cart
+                List<ProductResponDto> cart = productController.showCart();
+                System.out.println("🛒 Your Cart:");
+                if (cart.isEmpty()) {
+                    System.out.println("Cart is empty.");
+                } else {
+                    cart.forEach(System.out::println);
+                }
+            }
+            case 6 -> {
+                System.out.println("👋 Logging out...");
+                return;
+            }
             default -> System.out.println("❌ Invalid option.");
         }
     }
 
     public static void home() throws InterruptedException {
         if (userController.isUserLoggedIn()) {
-//            System.out.println("✅ You are already logged in.");
             userController.showLoggedInUser();
             productMenu();
             return;
@@ -96,7 +114,7 @@ public class UI {
         thumbnailAuth();
         System.out.print("Please select an option: ");
         int option = scanner.nextInt();
-        scanner.nextLine(); // Clear buffer
+        scanner.nextLine();
 
         switch (option) {
             case 1 -> {
@@ -113,7 +131,6 @@ public class UI {
 
                 userController.register(username, password, email);
 
-                // Try logging in after registration
                 Thread.sleep(1000);
                 clearConsole();
                 System.out.println("🔐 Login after registration");

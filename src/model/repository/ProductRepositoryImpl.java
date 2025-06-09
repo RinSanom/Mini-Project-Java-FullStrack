@@ -1,6 +1,6 @@
 package model.repository;
 
-import model.antities.ProductModel;
+import model.entities.ProductModel;
 
 import utiles.DatabaseConfig;
 

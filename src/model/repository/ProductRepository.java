@@ -1,9 +1,7 @@
 package model.repository;
 
-import model.antities.ProductModel;
-import model.dto.ProductResponDto;
+import model.entities.ProductModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface ProductRepository {
@@ -13,5 +11,7 @@ public interface ProductRepository {
     ProductModel fineProductByName(String pName);
     ProductModel fineProductByCategory(String CategoryName);
 
+    // Find and return a product by unique UUID
+    ProductModel findByUUID(String uuid);
 
 }

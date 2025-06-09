@@ -1,13 +1,12 @@
 package model.service;
 
-import model.antities.UserModel;
+import model.entities.UserModel;
 import model.dto.UserResponDto;
 import model.repository.UserRepository;
 import model.repository.UserRepositoryImpl;
 import utiles.FileUtil;
 import utiles.PasswordHasher;
 
-import java.lang.ref.SoftReference;
 import java.util.Optional;
 import java.util.UUID;
 
