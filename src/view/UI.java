@@ -4,6 +4,7 @@ import controller.ProductController;
 import controller.UserController;
 import model.dto.ProductCreateDto;
 import model.dto.ProductResponDto;
+import model.entities.CartItem;
 
 import java.util.List;
 import java.util.Scanner;
@@ -78,9 +79,13 @@ public class UI {
                 System.out.println(productResponDto);
             }
             case 4 -> { // ✅ Task: add product to cart
+                productController.getAllProducts()
+                        .forEach(System.out::println);
                 System.out.print("[+] Enter Product UUID to Add to Cart: ");
                 String uuid = scanner.nextLine();
-                ProductResponDto result = productController.addProductToCart(uuid);
+                System.out.print("[+] Enter Quantity to Add to Cart: ");
+                Integer quantity = scanner.nextInt();
+                CartItem result = productController.addProductToCart(uuid, quantity);
                 if (result != null) {
                     System.out.println("✅ Product added to cart: " + result);
                 } else {
@@ -88,7 +93,7 @@ public class UI {
                 }
             }
             case 5 -> { // ✅ Task: display all products in cart
-                List<ProductResponDto> cart = productController.showCart();
+                List<CartItem> cart = productController.showCart();
                 System.out.println("🛒 Your Cart:");
                 if (cart.isEmpty()) {
                     System.out.println("Cart is empty.");

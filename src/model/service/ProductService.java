@@ -2,6 +2,8 @@ package model.service;
 
 import model.dto.ProductCreateDto;
 import model.dto.ProductResponDto;
+import model.entities.CartItem;
+
 import java.util.List;
 
 public interface ProductService {
@@ -12,6 +14,6 @@ public interface ProductService {
     ProductResponDto getProductByCategory(String productCategory);
 
     // addToCart method (no body, as it's an interface method)
-    ProductResponDto addToCart(String UUID);
-    List<ProductResponDto> getCartProducts();
+    CartItem addToCart(String uuid, Integer quantity);
+    List<CartItem> getAllCartProducts();
 }

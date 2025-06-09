@@ -2,6 +2,7 @@ package controller;
 
 import model.dto.ProductCreateDto;
 import model.dto.ProductResponDto;
+import model.entities.CartItem;
 import model.service.ProductServiceImp;
 
 import java.util.List;
@@ -22,12 +23,12 @@ public class ProductController {
     }
 
     // New method for adding product to cart
-    public ProductResponDto addProductToCart(String UUID) {
-        return productServiceImp.addToCart(UUID);
+    public CartItem addProductToCart(String uuid,Integer quantity) {
+        return productServiceImp.addToCart(uuid,quantity);
     }
 
     // New method for showing cart products
-    public List<ProductResponDto> showCart() {
-        return productServiceImp.getCartProducts();
+    public List<CartItem> showCart() {
+        return productServiceImp.getAllCartProducts();
     }
 }

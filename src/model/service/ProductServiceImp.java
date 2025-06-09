@@ -1,6 +1,7 @@
 package model.service;
 
 import mapper.ProductMapper;
+import model.entities.CartItem;
 import model.entities.ProductModel;
 import model.dto.ProductCreateDto;
 import model.dto.ProductResponDto;
@@ -13,7 +14,7 @@ import java.util.List;
 public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository = new ProductRepositoryImpl();
-    private final List<ProductResponDto> cart = new ArrayList<>();
+    private final List<CartItem> cartList = new ArrayList<>();
 
     @Override
     public List<ProductResponDto> getAllProducts() {
@@ -48,18 +49,27 @@ public class ProductServiceImp implements ProductService {
 
     // Implemented method addToCart
     @Override
-    public ProductResponDto addToCart(String UUID) {
-        ProductModel product = productRepository.fineProductByUuid(UUID);
-        if (product != null) {
-            ProductResponDto dto = ProductMapper.mapFromProductToProductResponDto(product);
-            cart.add(dto); // Add without any limit or check
-            return dto;
+    public CartItem addToCart(String uuid , Integer quantity ) {
+        ProductModel product = productRepository.fineProductByUuid(uuid);
+        if(quantity == 0){
+            System.out.println("[!] Your Quantity must be greater than 0!");
         }
+        else if ((product != null) && (product.getQty() >= quantity)) {
+            product.setQty(product.getQty()-quantity);
+            CartItem cartItem = new CartItem(ProductMapper.mapFromProductToProductResponDto(product)
+                    ,quantity);
+            cartList.add(cartItem);
+            return cartItem;
+        }else {
+        System.out.println("[!] Your Quantity is over stock!");
+    }
         return null;
     }
 
     // Additional helper method for retrieving cart items
-    public List<ProductResponDto> getCartProducts() {
-        return cart;
+    @Override
+    public List<CartItem> getAllCartProducts() {
+
+        return cartList;
     }
 }
