@@ -1,5 +1,6 @@
 package model.service;
 
+import model.antities.UserModel;
 import model.dto.UserResponDto;
 
 import java.util.Optional;
@@ -10,4 +11,5 @@ public interface UserService {
     boolean logout();
     Optional<UserResponDto> getLoggedInUser();
     boolean isUserLoggedIn();
+
 }

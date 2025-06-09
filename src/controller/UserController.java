@@ -19,7 +19,7 @@ public class UserController {
 
     public boolean login(String email, String password) {
         if (userService.isUserLoggedIn()) {
-            System.out.println("⚠️ You are already logged in.");
+//            System.out.println("⚠️ You are already logged in.");
             return true;
         }
 
@@ -41,7 +41,7 @@ public class UserController {
     public void showLoggedInUser() {
         userService.getLoggedInUser().ifPresentOrElse(
                 user -> System.out.println("👋 Logged in as: " + user.email()),
-                () -> System.out.println("⚠️ Session exists, but user not found.")
+                () -> System.out.println("")
         );
     }
 
