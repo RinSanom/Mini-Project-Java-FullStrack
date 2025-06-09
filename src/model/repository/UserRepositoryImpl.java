@@ -1,6 +1,6 @@
 package model.repository;
 
-import model.antities.UserModel;
+import model.entities.UserModel;
 import utiles.DatabaseConfig;
 
 import java.sql.Connection;

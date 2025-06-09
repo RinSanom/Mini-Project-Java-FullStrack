@@ -1,6 +1,6 @@
 package mapper;
 
-import model.antities.ProductModel;
+import model.entities.ProductModel;
 import model.dto.ProductCreateDto;
 import model.dto.ProductResponDto;
 
