@@ -66,7 +66,6 @@ public class UI {
                         = new ProductCreateDto(productName, productPrice, productQuantity);
                 ProductResponDto product = productController.insertNewProduct(productCreateDto);
                 System.out.println(product);
-
             }
             default -> System.out.println("❌ Invalid option.");
         }
