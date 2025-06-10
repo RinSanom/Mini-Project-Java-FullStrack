@@ -12,10 +12,8 @@ public class UI {
     private static final ProductController productController = new ProductController();
     public static final UserController userController = new UserController();
     public static final Scanner scanner = new Scanner(System.in);
-
     // Console width for centering (adjust based on your terminal size)
     private static final int CONSOLE_WIDTH = 150;
-
     private static final String RESET = "\033[0m";
     private static final String BOLD = "\033[1m";
     private static final String CYAN = "\033[96m";

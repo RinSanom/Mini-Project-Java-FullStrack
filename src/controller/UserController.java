@@ -40,7 +40,7 @@ public class UserController {
     public void showLoggedInUser() {
         userService.getLoggedInUser().ifPresentOrElse(
                 user -> System.out.println("👋 Logged in as: " + user.email()),
-                () -> System.out.println("")
+                () -> System.out.println(userService.getLoggedInUser())
         );
     }
 
@@ -52,7 +52,5 @@ public class UserController {
             System.out.println("❌ Logout failed.");
         }
     }
-    public UserResponDto getUserByUuid(String uuid){
-        return userService.getUserByUuid(uuid);
-    }
+
 }

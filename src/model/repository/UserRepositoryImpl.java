@@ -1,12 +1,12 @@
 package model.repository;
 
-import model.antities.UserModel;
-import model.dto.UserResponDto;
+import model.entities.UserModel;
 import utiles.DatabaseConfig;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Optional;
 
 public class UserRepositoryImpl implements UserRepository{
@@ -68,21 +68,8 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
-    public UserResponDto fineUserByUuid(String uuid) {
-        String sql = "SELECT * FROM users WHERE u_uuid = ?";
-        try(Connection connectionq = DatabaseConfig.getDataConnection()){
-            PreparedStatement preparedStatement = connectionq.prepareStatement(sql);
-            preparedStatement.setString(1 , uuid);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
-                return new UserResponDto(resultSet.getString("u_uuid") , resultSet.getString("user_name"));
-            }
+    public List<UserModel> findAll() {
 
-        } catch (Exception e) {
-            System.out.println("Error during get user by uuid: " + e.getMessage());
-        }
-        return null;
+        return List.of();
     }
-
-
 }

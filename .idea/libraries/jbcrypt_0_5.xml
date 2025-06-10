@@ -2,6 +2,8 @@
   <library name="jbcrypt-0.5">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/../../../properties/jbcrypt-0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../properties/postgresql-42.7.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../properties/text-table-formatter-1.1.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

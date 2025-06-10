@@ -1,6 +1,6 @@
 package model.repository;
 
-import model.antities.ProductModel;
+import model.entities.ProductModel;
 
 import utiles.DatabaseConfig;
 
@@ -88,6 +88,31 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public ProductModel fineProductByCategory(String CategoryName) {
+        return null;
+    }
+
+    @Override
+    public ProductModel fineProductByUuid(String uuid) {
+        String sql = """
+                SELECT * FROM products WHERE p_uuid = ?
+                """;
+        try(Connection con = DatabaseConfig.getDataConnection()){
+            PreparedStatement pre = con.prepareStatement(sql);
+            pre.setString(1, uuid);
+            ResultSet resultSet = pre.executeQuery();
+            if(resultSet.next()){
+                ProductModel productModel = new ProductModel();
+                productModel.setId(resultSet.getInt("id"));
+                productModel.setPName(resultSet.getString("p_name"));
+                productModel.setPrice(resultSet.getFloat("price"));
+                productModel.setQty(resultSet.getInt("qty"));
+                productModel.setDeleted(resultSet.getBoolean("is_deleted"));
+                productModel.setPUuid(resultSet.getString("p_uuid"));
+                return productModel;
+            }
+        }catch (Exception exception){
+            System.out.println("Error during get product by uuid: " + exception.getMessage());
+        }
         return null;
     }
 }
