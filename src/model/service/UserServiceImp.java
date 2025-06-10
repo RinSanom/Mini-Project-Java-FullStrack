@@ -1,5 +1,6 @@
 package model.service;
 
+import mapper.UserMapper;
 import model.antities.UserModel;
 import model.dto.UserResponDto;
 import model.repository.UserRepository;
@@ -7,7 +8,6 @@ import model.repository.UserRepositoryImpl;
 import utiles.FileUtil;
 import utiles.PasswordHasher;
 
-import java.lang.ref.SoftReference;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,7 +32,7 @@ public class UserServiceImp implements UserService{
             UserModel user = userOpt.get();
             if (PasswordHasher.checkPassword(password, user.getPassword())) {
                 FileUtil.writeToFile(LOGIN_FILE, user.getUUID());
-                return Optional.of(new UserResponDto(user.getUserId(), user.getUUID(), user.getUserName()));
+                return Optional.of(new UserResponDto(user.getUUID(), user.getUserName()));
             } else {
                 System.out.println("❌ Incorrect password");
             }
@@ -60,5 +60,10 @@ public class UserServiceImp implements UserService{
     public boolean isUserLoggedIn() {
         String uuid = FileUtil.readFromFile(LOGIN_FILE);
         return uuid != null && !uuid.isEmpty();
+    }
+
+    @Override
+    public UserResponDto getUserByUuid(String uuid) {
+        return UserMapper.mapFromUserModelToUserResponDto(userRepository.fineUserByUuid(uuid));
     }
 }

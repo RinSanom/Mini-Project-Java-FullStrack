@@ -18,7 +18,7 @@
         <property name="ssl" value="true" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="e_commers_db@dpg-d11rk6c9c44c73flakdg-a.oregon-postgres.render.com" uuid="d6bd5c1c-c6a8-4c06-9b57-26747d789356">
+    <data-source source="LOCAL" name="e_commers_db@dpg-d1irk6c9c44c73flakdg-a-external.oregon-postgres.render.com" uuid="d6bd5c1c-c6a8-4c06-9b57-26747d789356">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
@@ -36,7 +36,7 @@
         <property name="sslcert" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="e_commers_db@dpg-d11rk6c9c44c73flakdg-a.oregon-postgres.render.com" uuid="660e5f1b-3c8a-457e-af48-32a6a6d2fe9c">
+    <data-source source="LOCAL" name="ecommerce_db" uuid="660e5f1b-3c8a-457e-af48-32a6a6d2fe9c">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>

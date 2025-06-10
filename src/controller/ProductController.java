@@ -16,7 +16,5 @@ public class ProductController {
     }
     public ProductResponDto insertNewProduct(ProductCreateDto productModel) {
         return productServiceImp.insertNewProduct(productModel);
-
-
     }
 }

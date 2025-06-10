@@ -11,5 +11,5 @@ public interface UserService {
     boolean logout();
     Optional<UserResponDto> getLoggedInUser();
     boolean isUserLoggedIn();
-
+    UserResponDto getUserByUuid(String uuid);
 }

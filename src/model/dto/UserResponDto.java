@@ -1,8 +1,7 @@
 package model.dto;
 
 public record UserResponDto(
-        Integer userId,
-        String uuid,
-        String email
+        String email,
+        String userName
 ) {
 }
