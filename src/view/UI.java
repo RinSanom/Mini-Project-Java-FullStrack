@@ -231,7 +231,9 @@ public class UI {
         printSectionHeader("Product Management", "📦");
         printMenuOption(1, "Add New Product", "Create a new product entry");
         printMenuOption(2, "Search Products", "Find specific products");
-        printMenuOption(3, "Logout", "Return to login screen");
+        printMenuOption(3, "Add Product To Cart", "Add a product to cart");
+        printMenuOption(4, "Show Cart", "View Your cart products");
+        printMenuOption(5, "Logout", "Return to login screen");
         System.out.println();
         printDivider();
     }
@@ -288,21 +290,23 @@ public class UI {
         pauseForUser();
     }
 
-    private static void handleUpdateProduct() {
+    private static void handleAppProductToCart() {
         clearConsole();
-        printSectionHeader("Update Product", "✏️");
-
-        printInfo("Update functionality - Coming Soon!");
-        printWarning("This feature will allow you to modify existing products.");
+        printSectionHeader("Add Product To Cart ", "✏️");
+        String uuid = getStringInput("Product UUID");
+        int quantity = getIntInput("Quantity");
+        try {
+            productController.addProductToCart(uuid,quantity);
+        } catch (Exception e) {
+            System.out.println("Add Error" + e.getMessage() );
+        }
+       // printWarning("This feature will allow you to modify existing products.");
         pauseForUser();
     }
-
-    private static void handleDeleteProduct() {
-        clearConsole();
-        printSectionHeader("Delete Product", "🗑️");
-        printInfo("Delete functionality - Coming Soon!");
-        printWarning("This feature will allow you to remove products from inventory.");
-        pauseForUser();
+    private static void handleShowCart() {
+        productController.showCart().forEach(product -> {
+            System.out.println(product);
+        });
     }
 
     private static void productMenu() throws InterruptedException {
@@ -314,11 +318,8 @@ public class UI {
             switch (choice) {
                 case 1 -> handleAddNewProduct();
                 case 2 -> handleSearchProducts();
-                case 3 -> {
-                    printInfo("Logging out... See you next time! 👋");
-                    Thread.sleep(1500);
-                    return; // Return to auth menu
-                }
+                case 3 -> handleAppProductToCart();
+                case 4 -> handleShowCart();
                 default -> {
                     printError("Invalid option! Please choose 1-3.");
                     Thread.sleep(1500);

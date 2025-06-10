@@ -68,7 +68,7 @@ public class ProductServiceImp implements ProductService {
     // Additional helper method for retrieving cart items
     @Override
     public List<CartItem> getAllCartProducts() {
-
+//        System.out.println("Cart List: " + cartList + "\n\n");
         return cartList;
     }
 }
