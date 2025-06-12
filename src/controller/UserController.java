@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public class UserController {
     private static final UserServiceImp userService = new UserServiceImp();
+
+
     public void register(String username, String password, String email) {
         boolean success = userService.register(username, password, email);
         if (success) {
@@ -32,7 +34,6 @@ public class UserController {
         }
     }
 
-
     public boolean isUserLoggedIn() {
         return userService.isUserLoggedIn();
     }
@@ -52,5 +53,6 @@ public class UserController {
             System.out.println("❌ Logout failed.");
         }
     }
+
 
 }

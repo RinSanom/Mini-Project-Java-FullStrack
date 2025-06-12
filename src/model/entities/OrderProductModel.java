@@ -7,13 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class UserModel {
+public class OrderProductModel {
     private Integer userId;
-    private String UUID;
-    private String userName;
-    private String email;
-    private String password;
-    private boolean isDeleted;
-
+    private Integer productId;
 }
+
+

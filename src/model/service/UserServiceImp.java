@@ -20,7 +20,7 @@ public class UserServiceImp implements UserService{
             return false;
         }
         UserModel userModel = new UserModel(null , UUID.randomUUID().toString() , username , email , PasswordHasher.hashPassword(password) , false);
-        FileUtil.writeToFile(LOGIN_FILE, userModel.getUUID());
+        FileUtil.writeToFile(LOGIN_FILE, userModel.getUUID() );
         return userRepository.registerUser(userModel);
     }
 
@@ -30,7 +30,7 @@ public class UserServiceImp implements UserService{
         if (userOpt.isPresent()) {
             UserModel user = userOpt.get();
             if (PasswordHasher.checkPassword(password, user.getPassword())) {
-                FileUtil.writeToFile(LOGIN_FILE, user.getUUID());
+                FileUtil.writeToFile(LOGIN_FILE, user.getUUID() );
                 return Optional.of(new UserResponDto(user.getUserId(), user.getUUID(), user.getUserName()));
             } else {
                 System.out.println("❌ Incorrect password");
@@ -43,14 +43,20 @@ public class UserServiceImp implements UserService{
 
     @Override
     public boolean logout() {
-        return false;
+        try {
+            FileUtil.writeToFile(LOGIN_FILE, "");
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error during logout: " + e.getMessage());
+            return false;
+        }
     }
 
     @Override
     public Optional<UserResponDto> getLoggedInUser() {
         String uuid = FileUtil.readFromFile(LOGIN_FILE);
-        if (uuid != null){
-            return Optional.empty();
+        if (uuid != null) {
+            userRepository.getUserByUUID(uuid);
         }
         return Optional.empty();
     }
@@ -62,7 +68,9 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public UserResponDto getUserByUuid(String uuid) {
-        return null;
+    public Optional getUserByUuid(String uuid) {
+        String uuidFromFile = FileUtil.readFromFile(LOGIN_FILE);
+        System.out.println("User UUID from file: " + uuidFromFile);
+        return userRepository.getUserByUUID(uuid);
     }
 }

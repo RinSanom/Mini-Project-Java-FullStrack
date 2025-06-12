@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class ProductModel {
     private Integer id;
     private String pName;
@@ -15,5 +14,4 @@ public class ProductModel {
     private Integer qty;
     private boolean isDeleted;
     private String pUuid;
-
 }

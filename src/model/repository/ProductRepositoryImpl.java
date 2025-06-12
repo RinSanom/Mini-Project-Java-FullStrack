@@ -40,12 +40,11 @@ public class ProductRepositoryImpl implements ProductRepository {
         return productModels;
     }
 
-
     @Override
     public ProductModel save(ProductModel productModel) {
         String sql = """
-       INSERT INTO products (p_name, price, qty, is_deleted, p_uuid) VALUES (?, ?, ?, ?, ?)
-""";
+                       INSERT INTO products (p_name, price, qty, is_deleted, p_uuid) VALUES (?, ?, ?, ?, ?)
+                       """;
         try (Connection con = DatabaseConfig.getDataConnection()){
             PreparedStatement pre = con.prepareStatement(sql);
             pre.setString(1, productModel.getPName());

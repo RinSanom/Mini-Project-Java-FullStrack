@@ -52,8 +52,6 @@ public class UserRepositoryImpl implements UserRepository{
         return Optional.empty();
     }
 
-
-
     @Override
     public boolean isUsernameTaken(String userName) {
         String sql = "SELECT 1 FROM users WHERE email = ?";
@@ -68,8 +66,18 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
-    public List<UserModel> findAll() {
-
-        return List.of();
+    public Optional getUserByUUID(String uuid) {
+        String sql = "SELECT id FROM users WHERE u_uuid = ?";
+        try (Connection conn = DatabaseConfig.getDataConnection() ) {
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, uuid);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return Optional.of(rs.getInt("id"));
+            }
+        } catch (Exception e) {
+            System.out.println("Check UUI Error" + e.getMessage());
+        }
+        return Optional.empty();
     }
 }
