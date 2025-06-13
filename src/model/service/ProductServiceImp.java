@@ -47,7 +47,6 @@ public class ProductServiceImp implements ProductService {
         return null;
     }
 
-    // Implemented method addToCart
     @Override
     public CartItem addToCart(String uuid, Integer quantity) {
         ProductModel product = productRepository.fineProductByUuid(uuid);
@@ -75,11 +74,10 @@ public class ProductServiceImp implements ProductService {
             if (item.getProductResponDto().pUuid().equals(uuid)) {
                 item.setQuantity(item.getQuantity() + quantity);
 
-                // 🔔 ❗❗ Now update ProductResponDto to reflect NEW stock qty
                 ProductResponDto updatedProductDto = new ProductResponDto(
                         product.getPName(),
                         product.getPrice(),
-                        product.getQty(),   // ✅ updated stock
+                        product.getQty(),
                         product.getPUuid()
                 );
                 item.setProductResponDto(updatedProductDto);
@@ -101,11 +99,14 @@ public class ProductServiceImp implements ProductService {
 //        System.out.println("✅ New item added to cart: " + newItem);
         return newItem;
     }
-    // Additional helper method for retrieving cart items
+
     @Override
     public List<CartItem> getAllCartProducts() {
-//        System.out.println("Helo from Product cart");
-//        System.out.println("Cart List: " + cartList + "\n\n");
         return cartList;
     }
+
+    public ProductModel getProductByUuid(String uuid) {
+        return productRepository.fineProductByCategory(uuid);
+    }
+
 }

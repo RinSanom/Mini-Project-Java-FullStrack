@@ -66,18 +66,22 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
-    public Optional getUserByUUID(String uuid) {
-        String sql = "SELECT id FROM users WHERE u_uuid = ?";
-        try (Connection conn = DatabaseConfig.getDataConnection() ) {
+    public Optional<UserModel> getUserByUUID(String uuid) {
+        String sql = "SELECT id, user_name, email FROM users WHERE u_uuid = ?";
+        try (Connection conn = DatabaseConfig.getDataConnection()) {
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, uuid);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                return Optional.of(rs.getInt("id"));
+                UserModel user = new UserModel();
+                user.setUserId(rs.getInt("id"));
+                System.out.println("User id: " + user.getUserId());
+                return Optional.of(user);
             }
         } catch (Exception e) {
-            System.out.println("Check UUI Error" + e.getMessage());
+            System.out.println("Check UUID Error: " + e.getMessage());
         }
         return Optional.empty();
     }
+
 }

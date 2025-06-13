@@ -69,8 +69,7 @@ public class UserServiceImp implements UserService{
 
     @Override
     public Optional getUserByUuid(String uuid) {
-        String uuidFromFile = FileUtil.readFromFile(LOGIN_FILE);
-        System.out.println("User UUID from file: " + uuidFromFile);
+//        String uuidFromFile = FileUtil.readFromFile(LOGIN_FILE);
         return userRepository.getUserByUUID(uuid);
     }
 }

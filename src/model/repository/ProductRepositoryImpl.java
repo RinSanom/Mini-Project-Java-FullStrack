@@ -107,6 +107,8 @@ public class ProductRepositoryImpl implements ProductRepository {
                 productModel.setQty(resultSet.getInt("qty"));
                 productModel.setDeleted(resultSet.getBoolean("is_deleted"));
                 productModel.setPUuid(resultSet.getString("p_uuid"));
+                System.out.println("Product id: " + productModel.getId());
+
                 return productModel;
             }
         }catch (Exception exception){
@@ -114,4 +116,5 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
         return null;
     }
+
 }

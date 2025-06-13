@@ -27,3 +27,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+SessionUser.txt
+app.properties

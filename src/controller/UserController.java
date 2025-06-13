@@ -54,5 +54,8 @@ public class UserController {
         }
     }
 
+    public static Optional getUserByUuid(String uuid){
+        return userService.getUserByUuid(uuid);
+    }
 
 }

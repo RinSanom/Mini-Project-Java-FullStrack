@@ -3,11 +3,12 @@ package controller;
 import model.dto.ProductCreateDto;
 import model.dto.ProductResponDto;
 import model.entities.CartItem;
+import model.entities.ProductModel;
 import model.service.ProductServiceImp;
 import java.util.List;
 
 public class ProductController {
-    private ProductServiceImp productServiceImp = new ProductServiceImp();
+    private static ProductServiceImp productServiceImp = new ProductServiceImp();
 
     public List<ProductResponDto> getAllProducts() {
         return productServiceImp.getAllProducts();
@@ -27,5 +28,9 @@ public class ProductController {
 
     public List<CartItem> showCart() {
         return productServiceImp.getAllCartProducts();
+    }
+
+    public static ProductModel getProductByUuid(String uuid) {
+        return productServiceImp.getProductByUuid(uuid);
     }
 }
