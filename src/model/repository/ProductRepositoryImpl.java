@@ -17,11 +17,9 @@ public class ProductRepositoryImpl implements ProductRepository {
     public List<ProductModel> getAll() {
         String sql = "SELECT * FROM products";
         List<ProductModel> productModels = new ArrayList<>();
-
         try (Connection con = DatabaseConfig.getDataConnection()) {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
-
             while (rs.next()) {
                 ProductModel productModel = new ProductModel();
                 productModel.setId(rs.getInt("id"));
@@ -30,13 +28,11 @@ public class ProductRepositoryImpl implements ProductRepository {
                 productModel.setQty(rs.getInt("qty"));
                 productModel.setDeleted(rs.getBoolean("is_deleted"));
                 productModel.setPUuid(rs.getString("p_uuid"));
-
                 productModels.add(productModel);
             }
         } catch (Exception e) {
             System.out.println("Error during get all products: " + e.getMessage());
         }
-
         return productModels;
     }
 
@@ -107,7 +103,6 @@ public class ProductRepositoryImpl implements ProductRepository {
                 productModel.setQty(resultSet.getInt("qty"));
                 productModel.setDeleted(resultSet.getBoolean("is_deleted"));
                 productModel.setPUuid(resultSet.getString("p_uuid"));
-                System.out.println("Product id: " + productModel.getId());
                 return productModel;
             }
         }catch (Exception exception){
@@ -115,4 +110,18 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
         return null;
     }
+
+    public ProductModel updateProductStock(String uuid, Integer quantity){
+        String sql = "UPDATE products SET qty = qty - ? WHERE p_uuid = ?";
+        try(Connection connection = DatabaseConfig.getDataConnection()){
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, quantity);
+            preparedStatement.setString(2, uuid);
+            preparedStatement.executeUpdate();
+        }catch (Exception e){
+            System.out.println("Error during update product stock: " + e.getMessage());
+        }
+        return null;
+    }
+
 }

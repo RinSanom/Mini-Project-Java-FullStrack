@@ -14,6 +14,7 @@ import java.util.List;
 public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository = new ProductRepositoryImpl();
+    private static final ProductRepositoryImpl productServiceImp = new ProductRepositoryImpl();
     private static List<CartItem> cartList = new ArrayList<>();
 
     @Override
@@ -50,30 +51,24 @@ public class ProductServiceImp implements ProductService {
     @Override
     public CartItem addToCart(String uuid, Integer quantity) {
         ProductModel product = productRepository.fineProductByUuid(uuid);
-
         if (product == null) {
             System.out.println("[!] Product not found!");
             return null;
         }
-
         if (quantity == null || quantity <= 0) {
             System.out.println("[!] Quantity must be greater than 0!");
             return null;
         }
-
         if (product.getQty() < quantity) {
             System.out.println("[!] Quantity exceeds available stock!");
             return null;
         }
-
         // ✅ Update product stock in DB first (in memory here, assume later save to DB)
         product.setQty(product.getQty() - quantity);
-
         // ✅ Check if product is already in the cart → if yes → update quantity
         for (CartItem item : cartList) {
             if (item.getProductResponDto().pUuid().equals(uuid)) {
                 item.setQuantity(item.getQuantity() + quantity);
-
                 ProductResponDto updatedProductDto = new ProductResponDto(
                         product.getPName(),
                         product.getPrice(),
@@ -81,19 +76,16 @@ public class ProductServiceImp implements ProductService {
                         product.getPUuid()
                 );
                 item.setProductResponDto(updatedProductDto);
-
                 System.out.println("✅ Updated existing cart item: " + item);
                 return item;
             }
         }
-
         ProductResponDto newProductDto = new ProductResponDto(
                 product.getPName(),
                 product.getPrice(),
                 product.getQty(),
                 product.getPUuid()
         );
-
         CartItem newItem = new CartItem(newProductDto, quantity);
         cartList.add(newItem);
 //        System.out.println("✅ New item added to cart: " + newItem);
@@ -107,5 +99,9 @@ public class ProductServiceImp implements ProductService {
 
     public ProductModel getProductByUuid(String uuid) {
         return productRepository.fineProductByUuid(uuid);
+    }
+
+    public void updateProductStock(String uuid, Integer quantity){
+        productServiceImp.updateProductStock(uuid,quantity);
     }
 }

@@ -37,11 +37,7 @@ public class UI {
 
 
     public static void clearConsole() {
-        try {
-            Thread.sleep(200);
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-        } catch (InterruptedException ignored) {}
+        System.out.println();
     }
 
     private static void printWelcomeBanner() {
@@ -154,10 +150,10 @@ public class UI {
     }
 
     private static void renderAuthMenu() {
-        printSectionHeader("Authentication", "🔐");
+        printSectionHeader("Create An Account ", "");
         printMenuOption(1, "Register", "Create a new account");
-        printMenuOption(2, "Login", "Access your account");
-        printMenuOption(3, "Exit", "Close the application");
+        printMenuOption(2, "Login", "   Access your account");
+        printMenuOption(3, "Exit", "   Close the application");
         System.out.println();
         printDivider();
     }
@@ -165,10 +161,9 @@ public class UI {
     private static boolean handleRegistration() throws InterruptedException {
         clearConsole();
         printSectionHeader("User Registration", "📝");
-
-        String username = getStringInput("Username");
-        String password = getStringInput("Password");
-        String email = getStringInput("Email");
+        String username = getStringInput("Username: ");
+        String email =  getStringInput(  "Email: ");
+        String password = getStringInput("Password: ");
 
         try {
             userController.register(username, password, email);
@@ -241,20 +236,19 @@ public class UI {
     }
 
     private static void renderProductMenu() {
-        printSectionHeader("Product Management", "");
+        printSectionHeader("Product Shopping", "");
         printMenuOption(1, "Add New Product", "Create a new product entry");
         printMenuOption(2, "Search Products", "Find specific products     ");
         printMenuOption(3, "Add Product To Cart", "Add a product to cart  ");
         printMenuOption(4, "Show Cart", "View Your cart products          ");
-        printMenuOption(4, "Make Oder", "Make Your Order                  ");
         printMenuOption(5, "Logout", "Return to login screen              ");
         System.out.println();
         printDivider();
     }
 
-    private static void handleViewAllProducts() {
-        showTableListAllPro( productController.getAllProducts()
-        );
+    private static boolean handleViewAllProducts() {
+        showTableListAllPro( productController.getAllProducts());
+        return true;
     }
 
     private static void handleAddNewProduct() {
@@ -342,8 +336,8 @@ public class UI {
     private static void handleShowCart() {
         clearConsole();
         printSectionHeader("🛒 Your Shopping Cart", "🛍️");
-
         List<CartItem> cartItems = productController.showCart();
+
         if (cartItems.isEmpty()) {
             System.out.println(centerText(RED + "❗ Your cart is empty." + RESET, CONSOLE_WIDTH));
             pauseForUser();
@@ -386,11 +380,21 @@ public class UI {
         for (String line : tableLines) {
             System.out.println(centerText(line, CONSOLE_WIDTH));
         }
-
-        // Footer with total
         System.out.println(centerText(BOLD + GREEN + "💰 Total Amount: $" + String.format("%.2f", totalPrice) + RESET, CONSOLE_WIDTH));
 
-        pauseForUser();
+        // ✅ Offer choices: 1) Make Order or 2) Go Back
+        System.out.println();
+        System.out.println(centerText("1. Make Order",   CONSOLE_WIDTH));
+        System.out.println(centerText("0. Back to Menu", CONSOLE_WIDTH));
+
+        int choice = getIntInput("Select an option");
+        if (choice == 1) {
+            try {
+                handleMakeOrder();
+            } catch (InterruptedException e) {
+                System.out.println("❗ Order process interrupted.");
+            }
+        }
     }
 
     private static void handleLogout() throws InterruptedException {
@@ -399,37 +403,43 @@ public class UI {
         userController.logout();
         printSuccess("You have been logged out successfully!");
         Thread.sleep(1500);
-
         clearConsole();
         printWelcomeBanner();
     }
 
     private static void handleMakeOrder() throws InterruptedException {
         clearConsole();
-        printSectionHeader("Make Your Order " ,"");
-        OrderProductModel orderProductModel = orderController.crateOrder();
-//        System.out.println("Order Product ID: "+ orderProductModel.getProductId());
-//        System.out.println("User ID: "+ orderProductModel.getUserId());
-        try{
+        printSectionHeader("📦 Make Your Order", "");
+        try {
+            printWarning("Product is Ordering........");
+            OrderProductModel orderProductModel = orderController.crateOrder(  );
+            System.out.println();
+            System.out.println(centerText(BOLD + GREEN + "✅ Your order has been placed successfully!" + RESET, CONSOLE_WIDTH));
+            System.out.println(centerText("Order Product ID: " + CYAN + orderProductModel.getProductId() + RESET, CONSOLE_WIDTH));
+            System.out.println(centerText("User ID: " + YELLOW + orderProductModel.getUserId() + RESET, CONSOLE_WIDTH));
         } catch (Exception e) {
-            System.out.println("Add Error" + e.getMessage());
+            System.out.println();
+            System.out.println(centerText(RED + "❗ Failed to place order: " + e.getMessage() + RESET, CONSOLE_WIDTH));
         }
-
+        pauseForUser();
     }
 
     private static void productMenu() throws InterruptedException {
         while (true) {
             clearConsole();
             renderProductMenu();
-            handleViewAllProducts();
+            printWarning( "Fetching products..." );
+            boolean hasProducts = handleViewAllProducts();
+            if (!hasProducts) {
+                System.out.println("No products available at the moment.\n");
+            }
             int choice = getIntInput("Select an option");
             switch (choice) {
                 case 1 -> handleAddNewProduct();
                 case 2 -> handleSearchProducts();
                 case 3 -> handleAppProductToCart();
                 case 4 -> handleShowCart();
-                case 5 -> handleMakeOrder();
-                case 6 -> {
+                case 5 -> {
                     handleLogout();
                     return;
                 }
