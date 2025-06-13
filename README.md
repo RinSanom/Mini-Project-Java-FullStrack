@@ -4,6 +4,20 @@
 
 A console-based e-commerce application built with Java that provides a complete shopping experience with user authentication, product management, shopping cart functionality, and order processing.
 
+## Project Status
+
+⚠️ **IMPORTANT: This project is currently under development and is not 100% complete.**
+
+While the core functionality is implemented, there are still some features and improvements that are being worked on:
+
+- **Error Handling**: Some edge cases may not be properly handled yet
+- **Input Validation**: Additional validation for user inputs is planned
+- **UI Improvements**: Enhancing the console-based user interface
+- **Testing**: Comprehensive testing is still in progress
+- **Documentation**: Some code documentation needs to be completed
+
+Feel free to use and contribute to this project, but be aware that you might encounter some bugs or incomplete features.
+
 ## Features
 
 - **User Authentication**
