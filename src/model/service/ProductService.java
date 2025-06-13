@@ -12,5 +12,5 @@ public interface ProductService {
     ProductResponDto getProductByName(String productName);
     ProductResponDto getProductByCategory(String productCategory);
     CartItem addToCart(String uuid, Integer quantity);
-    List<CartItem> getAllCartProducts();
+//    List<CartItem> getAllCartProducts();
 }

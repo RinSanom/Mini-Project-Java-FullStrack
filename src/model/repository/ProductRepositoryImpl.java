@@ -99,8 +99,8 @@ public class ProductRepositoryImpl implements ProductRepository {
             PreparedStatement pre = con.prepareStatement(sql);
             pre.setString(1, uuid);
             ResultSet resultSet = pre.executeQuery();
+            ProductModel productModel = new ProductModel();
             if(resultSet.next()){
-                ProductModel productModel = new ProductModel();
                 productModel.setId(resultSet.getInt("id"));
                 productModel.setPName(resultSet.getString("p_name"));
                 productModel.setPrice(resultSet.getFloat("price"));
@@ -108,7 +108,6 @@ public class ProductRepositoryImpl implements ProductRepository {
                 productModel.setDeleted(resultSet.getBoolean("is_deleted"));
                 productModel.setPUuid(resultSet.getString("p_uuid"));
                 System.out.println("Product id: " + productModel.getId());
-
                 return productModel;
             }
         }catch (Exception exception){
@@ -116,5 +115,4 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
         return null;
     }
-
 }

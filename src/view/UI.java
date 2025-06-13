@@ -6,6 +6,7 @@ import controller.UserController;
 import model.dto.ProductCreateDto;
 import model.dto.ProductResponDto;
 import model.entities.CartItem;
+import model.entities.OrderProductModel;
 import org.nocrala.tools.texttablefmt.BorderStyle;
 import org.nocrala.tools.texttablefmt.CellStyle;
 import org.nocrala.tools.texttablefmt.ShownBorders;
@@ -406,7 +407,9 @@ public class UI {
     private static void handleMakeOrder() throws InterruptedException {
         clearConsole();
         printSectionHeader("Make Your Order " ,"");
-        String uuid = getStringInput("Product UUID");
+        OrderProductModel orderProductModel = orderController.crateOrder();
+//        System.out.println("Order Product ID: "+ orderProductModel.getProductId());
+//        System.out.println("User ID: "+ orderProductModel.getUserId());
         try{
         } catch (Exception e) {
             System.out.println("Add Error" + e.getMessage());
@@ -425,7 +428,8 @@ public class UI {
                 case 2 -> handleSearchProducts();
                 case 3 -> handleAppProductToCart();
                 case 4 -> handleShowCart();
-                case 5 -> {
+                case 5 -> handleMakeOrder();
+                case 6 -> {
                     handleLogout();
                     return;
                 }

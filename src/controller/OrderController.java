@@ -1,11 +1,12 @@
 package controller;
 
+import model.entities.OrderProductModel;
 import model.service.OrderServiceImp;
 
 public class OrderController {
     private static final OrderServiceImp orderServiceImp = new OrderServiceImp();
 
-    public OrderServiceImp crateOrder( String pUUID , Integer userID ) {
-        return orderServiceImp;
+    public OrderProductModel crateOrder() {
+        return orderServiceImp.placeOrder();
     }
 }

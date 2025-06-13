@@ -1,5 +1,6 @@
 package model.service;
 
+import mapper.UserMapper;
 import model.entities.UserModel;
 import model.dto.UserResponDto;
 import model.repository.UserRepository;
@@ -56,10 +57,15 @@ public class UserServiceImp implements UserService{
     public Optional<UserResponDto> getLoggedInUser() {
         String uuid = FileUtil.readFromFile(LOGIN_FILE);
         if (uuid != null) {
-            userRepository.getUserByUUID(uuid);
+            Optional<UserModel> user = userRepository.getUserByUUID(uuid);
+            if (user.isPresent()) {
+                UserResponDto responDto = UserMapper.mapFromUserModelToUserResponDto(user.get());
+                return Optional.of(responDto);
+            }
         }
         return Optional.empty();
     }
+
 
     @Override
     public boolean isUserLoggedIn() {

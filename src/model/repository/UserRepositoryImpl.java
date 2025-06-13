@@ -67,7 +67,7 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public Optional<UserModel> getUserByUUID(String uuid) {
-        String sql = "SELECT id, user_name, email FROM users WHERE u_uuid = ?";
+        String sql = "SELECT * FROM users WHERE u_uuid = ?";
         try (Connection conn = DatabaseConfig.getDataConnection()) {
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, uuid);
@@ -75,7 +75,11 @@ public class UserRepositoryImpl implements UserRepository{
             if (rs.next()) {
                 UserModel user = new UserModel();
                 user.setUserId(rs.getInt("id"));
-                System.out.println("User id: " + user.getUserId());
+                user.setUUID(rs.getString("u_uuid"));
+                user.setUserName(rs.getString("user_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setDeleted(rs.getBoolean("is_deleted"));
                 return Optional.of(user);
             }
         } catch (Exception e) {

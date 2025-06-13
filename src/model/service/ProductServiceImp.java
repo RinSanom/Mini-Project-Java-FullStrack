@@ -14,7 +14,7 @@ import java.util.List;
 public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository = new ProductRepositoryImpl();
-    private final List<CartItem> cartList = new ArrayList<>();
+    private static List<CartItem> cartList = new ArrayList<>();
 
     @Override
     public List<ProductResponDto> getAllProducts() {
@@ -100,13 +100,12 @@ public class ProductServiceImp implements ProductService {
         return newItem;
     }
 
-    @Override
-    public List<CartItem> getAllCartProducts() {
+//    @Override
+    public static List<CartItem> getAllCartProducts() {
         return cartList;
     }
 
     public ProductModel getProductByUuid(String uuid) {
-        return productRepository.fineProductByCategory(uuid);
+        return productRepository.fineProductByUuid(uuid);
     }
-
 }

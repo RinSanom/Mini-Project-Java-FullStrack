@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="jbcrypt-0.6">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../Java_Library/jbcrypt-0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Java_Library/lombok.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Java_Library/postgresql-42.7.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../Java_Library/text-table-formatter-1.1.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -10,7 +10,5 @@ public record ProductResponDto(
         Integer qty,
 //        boolean isDeleted,
         String pUuid
-
 ) {
-
 }
