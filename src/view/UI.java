@@ -7,6 +7,7 @@ import model.dto.ProductCreateDto;
 import model.dto.ProductResponDto;
 import model.entities.CartItem;
 import model.entities.OrderProductModel;
+import model.repository.Insert10MRecord;
 import org.nocrala.tools.texttablefmt.BorderStyle;
 import org.nocrala.tools.texttablefmt.CellStyle;
 import org.nocrala.tools.texttablefmt.ShownBorders;
@@ -241,7 +242,8 @@ public class UI {
         printMenuOption(2, "Search Products", "Find specific products     ");
         printMenuOption(3, "Add Product To Cart", "Add a product to cart  ");
         printMenuOption(4, "Show Cart", "View Your cart products          ");
-        printMenuOption(5, "Logout", "Return to login screen              ");
+        printMenuOption(5, "Insert 10M records", "Insert 10M records to DB");
+        printMenuOption(6, "Logout", "Return to login screen              ");
         System.out.println();
         printDivider();
     }
@@ -439,7 +441,8 @@ public class UI {
                 case 2 -> handleSearchProducts();
                 case 3 -> handleAppProductToCart();
                 case 4 -> handleShowCart();
-                case 5 -> {
+                case 5 -> handleIsert10Mrecord();
+                case 6 -> {
                     handleLogout();
                     return;
                 }
@@ -449,6 +452,10 @@ public class UI {
                 }
             }
         }
+    }
+
+    private static void handleIsert10Mrecord(){
+        Insert10MRecord.insertTenMillionProducts();
     }
 
     public static void home() throws InterruptedException {

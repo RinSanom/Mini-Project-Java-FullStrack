@@ -1,4 +1,4 @@
-# E-Commerce Mini Project Java
+~~# E-Commerce Mini Project Java
 
 <img src="https://www.oracle.com/a/tech/img/cb88-java-logo-001.jpg" alt="Java Logo" width="100" height="100"/>
 
@@ -161,4 +161,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.~~
