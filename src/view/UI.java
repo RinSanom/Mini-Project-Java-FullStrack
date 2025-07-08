@@ -26,7 +26,7 @@ public class UI {
     private static final String LOGIN_FILE = "SessionUser.txt";
     public static final Scanner scanner = new Scanner(System.in);
     // Console width for centering (adjust based on your terminal size)
-    private static final int CONSOLE_WIDTH = 150;
+    private static final int CONSOLE_WIDTH = 0;
     private static final String RESET = "\033[0m";
     private static final String BOLD = "\033[1m";
     private static final String CYAN = "\033[96m";
@@ -75,22 +75,22 @@ public class UI {
     }
 
     private static void printSuccess(String message) {
-        String successLine = GREEN + BOLD + "✅ " + message + RESET;
+        String successLine = GREEN + BOLD + " " + message + RESET;
         System.out.println(centerText(successLine, CONSOLE_WIDTH));
     }
 
     private static void printError(String message) {
-        String errorLine = RED + BOLD + "❌ " + message + RESET;
+        String errorLine = RED + BOLD + " " + message + RESET;
         System.out.println(centerText(errorLine, CONSOLE_WIDTH));
     }
 
     private static void printWarning(String message) {
-        String warningLine = YELLOW + BOLD + "⚠️  " + message + RESET;
+        String warningLine = YELLOW + BOLD + " " + message + RESET;
         System.out.println(centerText(warningLine, CONSOLE_WIDTH));
     }
 
     private static void printInfo(String message) {
-        String infoLine = CYAN + BOLD + "ℹ️  " + message + RESET;
+        String infoLine = CYAN + BOLD + " " + message + RESET;
         System.out.println(centerText(infoLine, CONSOLE_WIDTH));
     }
 
@@ -100,7 +100,7 @@ public class UI {
     }
 
     private static void printPrompt(String prompt) {
-        String promptLine = BOLD + "➤ " + prompt + ": " + RESET;
+        String promptLine = BOLD + "➤" + prompt + ": " + RESET;
         System.out.print(centerText(promptLine, CONSOLE_WIDTH - 10)); // Leave space for input
     }
 
@@ -237,7 +237,7 @@ public class UI {
     }
 
     private static void renderProductMenu() {
-        printSectionHeader("Product Shopping", "");
+        printSectionHeader("               Product Shopping", "");
         printMenuOption(1, "Add New Product", "Create a new product entry");
         printMenuOption(2, "Search Products", "Find specific products     ");
         printMenuOption(3, "Add Product To Cart", "Add a product to cart  ");
@@ -255,7 +255,7 @@ public class UI {
 
     private static void handleAddNewProduct() {
         clearConsole();
-        printSectionHeader("Add New Product", "➕");
+        printSectionHeader("                  Add New Product", "");
 
         try {
             String productName = getStringInput("Product Name");
@@ -278,7 +278,7 @@ public class UI {
 
     private static void handleSearchProducts() {
         clearConsole();
-        printSectionHeader("Search Products", "🔍");
+        printSectionHeader("                  Search Products", "");
 
         String searchTerm = getStringInput("Enter search term");
         ProductResponDto product = productController.getProductByName(searchTerm);
@@ -289,7 +289,7 @@ public class UI {
             return;
         }
 
-        int CONSOLE_WIDTH = 150;
+        int CONSOLE_WIDTH = 0;
         Table table = new Table(4, BorderStyle.UNICODE_BOX_DOUBLE_BORDER, ShownBorders.ALL);
 
         String[] header = {
@@ -323,7 +323,7 @@ public class UI {
 
     private static void handleAppProductToCart() {
         clearConsole();
-        printSectionHeader("Add Product To Cart ", "");
+        printSectionHeader("             Add Product To Cart ", "");
         String uuid = getStringInput("Product UUID");
         int quantity = getIntInput("Quantity");
         try {
@@ -337,7 +337,7 @@ public class UI {
 
     private static void handleShowCart() {
         clearConsole();
-        printSectionHeader("🛒 Your Shopping Cart", "🛍️");
+        printSectionHeader("               Your Shopping Cart", "");
         List<CartItem> cartItems = productController.showCart();
 
         if (cartItems.isEmpty()) {
@@ -346,7 +346,7 @@ public class UI {
             return;
         }
 
-        int CONSOLE_WIDTH = 150;
+        int CONSOLE_WIDTH = 0;
         Table table = new Table(4, BorderStyle.UNICODE_BOX_DOUBLE_BORDER, ShownBorders.ALL);
 
         String[] header = {
@@ -411,14 +411,22 @@ public class UI {
 
     private static void handleMakeOrder() throws InterruptedException {
         clearConsole();
-        printSectionHeader("📦 Make Your Order", "");
+        printSectionHeader("                 Make Your Order", "");
         try {
-            printWarning("Product is Ordering........");
-            OrderProductModel orderProductModel = orderController.crateOrder(  );
-            System.out.println();
-            System.out.println(centerText(BOLD + GREEN + "✅ Your order has been placed successfully!" + RESET, CONSOLE_WIDTH));
-            System.out.println(centerText("Order Product ID: " + CYAN + orderProductModel.getProductId() + RESET, CONSOLE_WIDTH));
-            System.out.println(centerText("User ID: " + YELLOW + orderProductModel.getUserId() + RESET, CONSOLE_WIDTH));
+            printWarning("Processing your order...");
+            OrderProductModel orderProductModel = orderController.crateOrder();
+            
+            if (orderProductModel != null) {
+                System.out.println();
+                System.out.println(centerText(BOLD + GREEN + "✅ Your order has been placed successfully!" + RESET, CONSOLE_WIDTH));
+                System.out.println(centerText("Order Product ID: " + CYAN + orderProductModel.getProductId() + RESET, CONSOLE_WIDTH));
+                System.out.println(centerText("User ID: " + YELLOW + orderProductModel.getUserId() + RESET, CONSOLE_WIDTH));
+                System.out.println(centerText(BOLD + BLUE + "📦 Product stock has been updated" + RESET, CONSOLE_WIDTH));
+                System.out.println(centerText(BOLD + GREEN + "🛒 Your cart has been cleared" + RESET, CONSOLE_WIDTH));
+            } else {
+                System.out.println();
+                System.out.println(centerText(RED + "❗ Failed to place order: Unknown error occurred" + RESET, CONSOLE_WIDTH));
+            }
         } catch (Exception e) {
             System.out.println();
             System.out.println(centerText(RED + "❗ Failed to place order: " + e.getMessage() + RESET, CONSOLE_WIDTH));
@@ -426,11 +434,15 @@ public class UI {
         pauseForUser();
     }
 
+    private static void handleIsert10Mrecord(){
+        Insert10MRecord.insertTenMillionProducts();
+    }
+
     private static void productMenu() throws InterruptedException {
         while (true) {
             clearConsole();
             renderProductMenu();
-            printWarning( "Fetching products..." );
+//            printWarning( "Fetching products..." );
             boolean hasProducts = handleViewAllProducts();
             if (!hasProducts) {
                 System.out.println("No products available at the moment.\n");
@@ -447,15 +459,11 @@ public class UI {
                     return;
                 }
                 default -> {
-                    printError("Invalid option! Please choose 1-5.");
+                    printError("Invalid option! Please choose 1-6.");
                     Thread.sleep(1500);
                 }
             }
         }
-    }
-
-    private static void handleIsert10Mrecord(){
-        Insert10MRecord.insertTenMillionProducts();
     }
 
     public static void home() throws InterruptedException {

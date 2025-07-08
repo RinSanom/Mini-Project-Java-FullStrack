@@ -15,5 +15,4 @@ public class UserModel {
     private String email;
     private String password;
     private boolean isDeleted;
-
 }

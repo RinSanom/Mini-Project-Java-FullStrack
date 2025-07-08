@@ -11,5 +11,3 @@ public class OrderProductModel {
     private Integer userId;
     private Integer productId;
 }
-
-

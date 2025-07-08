@@ -23,18 +23,44 @@ public class OrderServiceImp implements OrderService {
         List<UserResponDto> users = userServiceImp.getLoggedInUser()
                 .map(Collections::singletonList)
                 .orElse(Collections.emptyList());
+        
+        if (cartItems.isEmpty()) {
+            throw new RuntimeException("Cart is empty. Cannot place order.");
+        }
+        
         Integer userID = 0;
         for (UserResponDto user : users) {
             userID = user.userId();
         }
+        
         if (userServiceImp.isUserLoggedIn()) {
+            OrderProductModel lastOrder = null;
+            
+            // Process each cart item
             for (CartItem cartItem : cartItems) {
-                 ProductResponDto p = cartItem.getProductResponDto();
-                 ProductModel pModel = productServiceImp.getProductByUuid(p.pUuid());
-                 OrderProductModel orderProductModel = new OrderProductModel(userID,pModel.getId());
-                 return orderProductImp.save(orderProductModel);
+                ProductResponDto p = cartItem.getProductResponDto();
+                ProductModel pModel = productServiceImp.getProductByUuid(p.pUuid());
+                
+                // Check if enough stock is available
+                if (pModel.getQty() < cartItem.getQuantity()) {
+                    throw new RuntimeException("Insufficient stock for product: " + p.pName() + 
+                                             ". Available: " + pModel.getQty() + ", Requested: " + cartItem.getQuantity());
+                }
+                
+                // Create order for this product
+                OrderProductModel orderProductModel = new OrderProductModel(userID, pModel.getId());
+                lastOrder = orderProductImp.save(orderProductModel);
+                
+                // Update product stock in database
+                productServiceImp.updateProductStock(p.pUuid(), cartItem.getQuantity());
             }
+            
+            // Clear the cart after successful order
+            productServiceImp.clearCart();
+            
+            return lastOrder;
         }
-        return null;
+        
+        throw new RuntimeException("User is not logged in. Cannot place order.");
     }
 }

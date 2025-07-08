@@ -19,9 +19,8 @@ public class TableListAllPro {
     private static final String BLUE = "\033[94m";
     private static final String PURPLE = "\033[95m";
     private static final String WHITE = "\033[97m";
-
     public static void showTableListAllPro(List<ProductResponDto> productResponDtos) {
-        int consoleWidth = 150;
+        int consoleWidth = 0;
         Table table = new Table(4, BorderStyle.UNICODE_BOX_DOUBLE_BORDER, ShownBorders.ALL);
 
         String[] header = {

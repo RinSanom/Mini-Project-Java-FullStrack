@@ -63,23 +63,23 @@ public class ProductServiceImp implements ProductService {
             System.out.println("[!] Quantity exceeds available stock!");
             return null;
         }
-        // ✅ Update product stock in DB first (in memory here, assume later save to DB)
-        product.setQty(product.getQty() - quantity);
-        // ✅ Check if product is already in the cart → if yes → update quantity
+        
+        // Check if product is already in the cart → if yes → update quantity
         for (CartItem item : cartList) {
             if (item.getProductResponDto().pUuid().equals(uuid)) {
-                item.setQuantity(item.getQuantity() + quantity);
-                ProductResponDto updatedProductDto = new ProductResponDto(
-                        product.getPName(),
-                        product.getPrice(),
-                        product.getQty(),
-                        product.getPUuid()
-                );
-                item.setProductResponDto(updatedProductDto);
+                int newQuantity = item.getQuantity() + quantity;
+                // Check total quantity against available stock
+                if (product.getQty() < newQuantity) {
+                    System.out.println("[!] Total quantity in cart would exceed available stock!");
+                    return null;
+                }
+                item.setQuantity(newQuantity);
                 System.out.println("✅ Updated existing cart item: " + item);
                 return item;
             }
         }
+        
+        // Create new cart item
         ProductResponDto newProductDto = new ProductResponDto(
                 product.getPName(),
                 product.getPrice(),
@@ -88,7 +88,6 @@ public class ProductServiceImp implements ProductService {
         );
         CartItem newItem = new CartItem(newProductDto, quantity);
         cartList.add(newItem);
-//        System.out.println("✅ New item added to cart: " + newItem);
         return newItem;
     }
 
@@ -102,6 +101,10 @@ public class ProductServiceImp implements ProductService {
     }
 
     public void updateProductStock(String uuid, Integer quantity){
-        productServiceImp.updateProductStock(uuid,quantity);
+        productRepository.updateProductStock(uuid, quantity);
+    }
+
+    public void clearCart(){
+        cartList.clear();
     }
 }

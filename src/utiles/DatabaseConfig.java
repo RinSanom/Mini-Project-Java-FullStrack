@@ -12,7 +12,7 @@ public class DatabaseConfig {
             properties.load(fileReader);
 //            System.out.println(" successfully " +properties);
         }catch (Exception e){
-            System.out.println("[!] Get DatabaseConfig Error" +e.getMessage());
+            System.out.println("[!] Get DatabaseConfig Error :    " +e.getMessage());
         }
         return properties;
     }
@@ -25,7 +25,7 @@ public class DatabaseConfig {
 //            System.out.println("Data Connection Success");
             return connection;
         } catch (Exception e) {
-            System.out.println("[!] Get DatabaseConfig Error" +e.getMessage());
+            System.err.println("[!] Get DatabaseConfig Error" +e.getMessage());
         }
         return null;
     }

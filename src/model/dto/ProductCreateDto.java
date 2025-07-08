@@ -5,5 +5,4 @@ public record ProductCreateDto(
         Float price,
         Integer qty
 ) {
-
 }
