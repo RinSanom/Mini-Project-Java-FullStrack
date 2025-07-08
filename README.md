@@ -115,14 +115,40 @@ src/
    - Database connection details are stored in the `app.properties` file
    - Update the following properties if needed:
      ```
-     db_url=jdbc:postgresql://dpg-d11rk6c9c44c73flakdg-a.oregon-postgres.render.com:5432/e_commers_db
-     db_username=e_commers_db_user
-     db_password=qzSO6esc2ah24W9m2CAhQoH2MbqDYDPs
+     db_url=<your data base url>
+     db_username=<your data base username> 
+     db_password=<your data base password>
      ```
+5. Execute Query
+    ```
+    CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    u_uuid VARCHAR(100) UNIQUE NOT NULL,
+    user_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    is_deleted BOOLEAN DEFAULT FALSE
+    );
 
-5. Build the project
+    CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    p_name VARCHAR(100) NOT NULL,
+    price FLOAT NOT NULL,
+    qty INTEGER NOT NULL,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    p_uuid VARCHAR(100) UNIQUE NOT NULL
+    );
+    
+    CREATE TABLE orders_products (
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
+    PRIMARY KEY (user_id, product_id)
+    );
+   ```
 
-6. Run the `Main.java` file to start the application
+6. Build the project
+
+7. Run the `Main.java` file to start the application
 
 ## Usage
 
